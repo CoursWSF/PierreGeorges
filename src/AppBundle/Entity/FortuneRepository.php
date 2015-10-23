@@ -62,7 +62,7 @@ class FortuneRepository extends \Doctrine\ORM\EntityRepository
       ->where("F.validate = :validate")
       ->setParameter("validate", 0)
       ->orderBy("F.createdAt", "DESC")
-      ->setMaxResults(10)
+      ->setMaxResults(1)
       ->getQuery()
       ->getResult();
   }
