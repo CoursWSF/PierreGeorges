@@ -1,0 +1,38 @@
+<a href="{{path("onequote", {id: quote.id})}}">
+  <h3 class="text-center">{{quote.title}}</h3>
+</a>
+{% if quote.validate != 1 %}
+  <a class="pull-right" href="{{path("validateQuote", {id: quote.id})}}"><i class="fa fa-check-circle-o"></i></a>
+{% endif %}
+
+<p>{{quote.content | nl2br}}</p>
+<div class="row">
+  <div class="col-sm-6">
+    <p class="pull-left">
+      Author :
+      <a href="{{path("byauthor", {idAuthor: quote.user.id})}}">{{quote.user}}</a>
+    </p>
+  </div>
+  <div class="col-sm-6">
+    <p class="pull-right"> Date : {{quote.createdAt|date("d/m/Y")}}</p>
+  </div>
+</div>
+<div class="pull-right">
+  <div class="row">
+    <div class="col-sm-3">
+      <a href="{{path("voteup", {id: quote.id})}}"><i class="fa fa-thumbs-o-up"></i></a>
+    </div>
+    <div class="col-sm-3">
+      <p>{{quote.upVote}}</p>
+    </div>
+    <div class="col-sm-3">
+      <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down"></i></a>
+    </div>
+    <div class="col-sm-3">
+      <p>{{quote.downVote}}</p>
+    </div>
+  </div>
+</div>
+
+<br><br>
+<hr>

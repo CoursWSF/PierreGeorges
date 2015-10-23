@@ -1,0 +1,23 @@
+<div class="row">
+
+  <div class="col-sm-1"></div>
+
+  <div class="col-sm-4">
+    <h2 class="text-center">Les meilleurs Faker</h2><br>
+    {% for bestQuote in bestQuotes %}
+      {% include 'default/_quote.html.twig' with {quote: bestQuote} %}
+    {% endfor %}
+  </div>
+
+  <div class="col-sm-2"></div>
+
+  <div class="col-sm-4">
+    <h2 class="text-center">Les moins bons Faker</h2><br>
+    {% for worstQuote in worstQuotes %}
+      {% include 'default/_quote.html.twig' with {quote: worstQuote} %}
+    {% endfor %}
+  </div>
+
+  <div class="col-sm-1"></div>
+
+</div>

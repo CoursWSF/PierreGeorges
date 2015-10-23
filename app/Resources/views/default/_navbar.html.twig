@@ -1,0 +1,54 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+<!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
+<div class="container-fluid">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Pierre Georges</a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+    <ul class="nav navbar-nav">
+      <li {% if app.request.attributes.get('_route') == 'homepage' %}class="active"{% endif %}>
+        <a href="{{path("homepage")}}">Home</a>
+      </li>
+      <li {% if app.request.attributes.get('_route') == 'top' %}class="active"{% endif %}>
+        <a href="{{path("top")}}">Top</a>
+      </li>
+      <li {% if app.request.attributes.get('_route') == 'flop' %}class="active"{% endif %}>
+        <a href="{{path("flop")}}">Flop</a>
+      </li>
+      <li {% if app.request.attributes.get('_route') == 'random' %}class="active"{% endif %}>
+        <a href="{{path("random")}}">Random</a>
+      </li>
+      <li {% if app.request.attributes.get('_route') == 'newquote' %}class="active"{% endif %}>
+        <a href="{{path("newquote")}}">Create Pierre Georges</a>
+      </li>
+      <li {% if app.request.attributes.get('_route') == 'moderate' %}class="active"{% endif %}>
+        <a href="{{path("moderate")}}">Whalid</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      {% if user == 'anon.' %}
+      <li>
+        <a href="{{path("fos_user_security_login")}}"> Login </a>
+      </li>
+      <li>
+        <a href="{{path("fos_user_registration_register")}}"> Register </a>
+      </li>
+      {% else %}
+      <li>
+        <a href="{{path("fos_user_profile_show")}}">Welcome {{user.username}}</a>
+      </li>
+      <li>
+        <a href="{{path("fos_user_security_logout")}}"> Logout </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</div>
+</nav>

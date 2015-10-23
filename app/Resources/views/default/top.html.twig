@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+  <div class="container-fluid" style="margin-top:3%;">
+    <h2 class="text-center">Les meilleurs Pierre Georges </h2><br>
+    <div class="row">
+      <div class="col-sm-4"></div>
+
+      <div class="col-sm-4">
+        {% for bestQuote in bestQuotes %}
+          {% include 'default/_quote.html.twig' with {quote: bestQuote} %}
+        {% endfor %}
+      </div>
+
+      <div class="col-sm-4"></div>
+    </div>
+  </div>
+
+{% endblock %}
