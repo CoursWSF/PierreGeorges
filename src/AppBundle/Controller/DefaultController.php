@@ -5,6 +5,12 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+
+// RESPONSE JSON
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+USE Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+
 use AppBundle\Entity\Fortune;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
@@ -38,7 +44,7 @@ class DefaultController extends Controller
         $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
         $quote->voteUp();
 
-        $this->get("session")->set("idQuote".$id, true);
+        $this->get("session")->set("idQuote".$id, "voteUp");
 
         $this->getDoctrine()->getManager()->Flush();
         return $this->redirect($this->getRequest()->headers->get('referer'));
@@ -58,7 +64,7 @@ class DefaultController extends Controller
         $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
         $quote->voteDown();
 
-        $this->get("session")->set("idQuote".$id, true);
+        $this->get("session")->set("idQuote".$id, voteDown);
 
         $this->getDoctrine()->getManager()->Flush();
         return $this->redirect($this->getRequest()->headers->get('referer'));
@@ -95,14 +101,23 @@ class DefaultController extends Controller
       }
 
     /**
-     * @Route("/byauthor/{idAuthor}", name="byauthor")
+     * @Route("/byauthor/{idAuthor}", name="byauthor"),
+     * @Method("GET"),
+     * requirements={
+     *    "_format": "json"
+     * }
      */
     public function showByAuthorAction(Request $request, $idAuthor)
     {
       \dump($idAuthor);
-      return $this->render('default/byAuthor.html.twig', array(
-          'quotesByAuthor' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor),
-      ));
+      $quotesByAuthor = $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor);
+
+      $serializedEntity = $this->container->get('serializer')->serialize($quotesByAuthor, 'json');
+
+      return new Response($serializedEntity, 200, array('Content-Type' => 'application/json'));
+      // return $this->render('default/byAuthor.html.twig', array(
+      //     'quotesByAuthor' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor),
+      // ));
     }
 
     /**
@@ -214,6 +229,17 @@ class DefaultController extends Controller
 
         $comment->setValidate();
         $this->getDoctrine()->getManager()->Flush();
+        return $this->redirect($this->getRequest()->headers->get('referer'));
+      }
+
+      /**
+       * @Route("/moderate/delete/{id}", name="deleteQuote")
+       */
+      public function deleteQuoteAction(Request $request, $id)
+      {
+        $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
+        $this->getDoctrine()->getRepository("AppBundle:Fortune")->deleteQuote($quote);
+
         return $this->redirect($this->getRequest()->headers->get('referer'));
       }
 }

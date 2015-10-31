@@ -66,4 +66,10 @@ class FortuneRepository extends \Doctrine\ORM\EntityRepository
       ->getQuery()
       ->getResult();
   }
+
+  public function deleteQuote($fortune) {
+    return $this->createQueryBuilder('F')
+      ->remove($fortune)
+      ->fluch();
+  }
 }

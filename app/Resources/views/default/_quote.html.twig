@@ -2,7 +2,10 @@
   <h3 class="text-center">{{quote.title}}</h3>
 </a>
 {% if quote.validate != 1 %}
+<div class="pull-right">
   <a class="pull-right" href="{{path("validateQuote", {id: quote.id})}}"><i class="fa fa-check-circle-o"></i></a>
+  <a class="pull-right" href="{{path("deleteQuote", {id: quote.id})}}"><i class="fa fa-ban"></i></a>
+</div>
 {% endif %}
 
 <p>{{quote.content | nl2br}}</p>
@@ -26,7 +29,13 @@
       <p>{{quote.upVote}}</p>
     </div>
     <div class="col-sm-3">
-      <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down"></i></a>
+      {% if app.session('idQuote' ~ quote.id) == 'voteUp' %}
+
+        <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down" style="color:red;"></i></a>
+      {% else %}
+
+        <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down"></i></a>
+      {% endif %}
     </div>
     <div class="col-sm-3">
       <p>{{quote.downVote}}</p>
