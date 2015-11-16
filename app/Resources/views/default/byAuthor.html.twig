@@ -9,7 +9,9 @@
       <div class="col-sm-4">
 
       {% for quote in quotesByAuthor %}
-        {% include 'default/_quote.html.twig' with {quote: quote} %}
+        {% if quote.validate == 1 %}
+          {% include 'default/_quote.html.twig' with {quote: quote} %}
+        {% endif %}
       {% endfor %}
       </div>
 

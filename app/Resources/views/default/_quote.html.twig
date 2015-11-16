@@ -8,6 +8,16 @@
 </div>
 {% endif %}
 
+{% if user != "anon." %}
+
+  {% if user.username == quote.user %}
+    <p>
+      <a class="pull-right" href="{{path("updateQuote", {id: quote.id})}}"><i class="fa fa-pencil"></i></a>
+    </p>
+  {% endif %}
+
+{% endif %}
+
 <p>{{quote.content | nl2br}}</p>
 <div class="row">
   <div class="col-sm-6">

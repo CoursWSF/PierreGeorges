@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container-fluid" style="margin-top:3%;">
+  <h1 class="text-center">Edit ton Pierre Georges</h1>
+
+  <div class="row">
+    <div class="col-sm-4"></div>
+
+    <div class="col-sm-4">
+      <form action="{{path('updateQuote')}}" method="post" novalidate>
+        <div class="form-group">
+          {{form_row(form.title, {'attr': {class:"form-control"}})}}
+        </div>
+        <div class="form-group">
+          {{form_row(form.content, {'attr': {class:"form-control"}})}}
+        </div>
+        <div class="form-group">
+          {{form_row(form.submit, {'attr': {class:"btn btn-primary btn-lg btn-block"}})}}
+        </div>
+        {{form_rest(form)}}
+      </form>
+    </div>
+
+    <div class="col-sm-4"></div>
+  </div>
+</div>
+
+{% endblock %}

@@ -25,13 +25,21 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+      $user = $this->get('security.context')->getToken()->getUser();
+      \dump($user);
+
+      if($user == "anon."){
+        \dump("coucou");
+      }
+
       $fortunes = $this->getDoctrine()->getRepository("AppBundle:Fortune")->findLasts();
       $pagerfanta = new Pagerfanta($fortunes);
       $pagerfanta -> setCurrentPage($request->get("page", 1));
 
       return $this->render('default/index.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-          'quotes' => $pagerfanta
+          'quotes' => $pagerfanta,
+          'user' => $user
       ));
     }
 
@@ -109,15 +117,18 @@ class DefaultController extends Controller
      */
     public function showByAuthorAction(Request $request, $idAuthor)
     {
-      \dump($idAuthor);
+
+      // RETURN JSON RESPONE
+      // $quotesByAuthor = $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor);
+      // $serializedEntity = $this->container->get('serializer')->serialize($quotesByAuthor, 'json');
+      // return new Response($serializedEntity, 200, array('Content-Type' => 'application/json'));
+
       $quotesByAuthor = $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor);
+      \dump($quotesByAuthor);
 
-      $serializedEntity = $this->container->get('serializer')->serialize($quotesByAuthor, 'json');
-
-      return new Response($serializedEntity, 200, array('Content-Type' => 'application/json'));
-      // return $this->render('default/byAuthor.html.twig', array(
-      //     'quotesByAuthor' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor),
-      // ));
+      return $this->render('default/byAuthor.html.twig', array(
+          'quotesByAuthor' => $quotesByAuthor,
+      ));
     }
 
     /**
@@ -225,9 +236,9 @@ class DefaultController extends Controller
        */
       public function validateQuoteAction(Request $request, $id)
       {
-        $comment = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
+        $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
 
-        $comment->setValidate();
+        $quote->setValidate();
         $this->getDoctrine()->getManager()->Flush();
         return $this->redirect($this->getRequest()->headers->get('referer'));
       }
@@ -237,9 +248,41 @@ class DefaultController extends Controller
        */
       public function deleteQuoteAction(Request $request, $id)
       {
+
+        $em = $this->getDoctrine()->getManager();
+
         $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
-        $this->getDoctrine()->getRepository("AppBundle:Fortune")->deleteQuote($quote);
+
+        $em->remove($quote);
+        $em->flush();
 
         return $this->redirect($this->getRequest()->headers->get('referer'));
+      }
+
+
+      /**
+       * @Route("/edit/{id}", name="updateQuote")
+       */
+      public function updateQuoteAction(Fortune $fortune, Request $request, $id)
+      {
+        $user = $this->get('security.context')->getToken()->getUser();
+        \dump($user);
+        $form = $this->createForm(new CommentType, new Comment);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+          $em = $this->getDoctrine()->getManager();
+          $comment = $form->getData();
+          $comment -> setFortune($fortune);
+          $comment -> setUser($user);
+          $em->persist($comment);
+          $em->flush();
+          return $this->redirect($this->getRequest()->headers->get('referer'));
+        }
+
+        return $this->render('default/updateQuote.html.twig', array(
+            'quote' => $fortune,
+            'user'=> $user
+        ));
       }
 }
