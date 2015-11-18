@@ -218,8 +218,10 @@ class DefaultController extends Controller
      */
     public function showModerateAction(Request $request)
     {
+
       return $this->render('default/moderation.html.twig', array(
-        'quotes' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->findModerated()
+        'quotes' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->findModerated(),
+        'user' => $this->get('security.context')->getToken()->getUser()
       ));
     }
       /**
