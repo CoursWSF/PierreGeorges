@@ -33,17 +33,21 @@
 <div class="pull-right">
   <div class="row">
     <div class="col-sm-3">
-      <a href="{{path("voteup", {id: quote.id})}}"><i class="fa fa-thumbs-o-up"></i></a>
+      {% if app.session.get('idQuote' ~ quote.id) == 'voteUp' %}
+        <a href="{{path("voteup", {id: quote.id})}}"><i class="fa fa-thumbs-o-up"
+        style="color:blue;"></i></a>
+      {% else %}
+        <a href="{{path("voteup", {id: quote.id})}}"><i class="fa fa-thumbs-o-up"></i></a>
+      {% endif %}
     </div>
     <div class="col-sm-3">
       <p>{{quote.upVote}}</p>
     </div>
     <div class="col-sm-3">
-      {% if app.session('idQuote' ~ quote.id) == 'voteUp' %}
-
-        <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down" style="color:red;"></i></a>
+      {% if app.session.get('idQuote' ~ quote.id) == 'voteDown' %}
+        <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down"
+        style="color:red;"></i></a>
       {% else %}
-
         <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down"></i></a>
       {% endif %}
     </div>

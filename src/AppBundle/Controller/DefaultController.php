@@ -34,7 +34,8 @@ class DefaultController extends Controller
       return $this->render('default/index.html.twig', array(
           'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
           'quotes' => $pagerfanta,
-          'user' => $user
+          'user' => $user,
+          'session' => $this->get("session")
       ));
     }
 
@@ -67,7 +68,7 @@ class DefaultController extends Controller
         $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
         $quote->voteDown();
 
-        $this->get("session")->set("idQuote".$id, voteDown);
+        $this->get("session")->set("idQuote".$id, "voteDown");
 
         $this->getDoctrine()->getManager()->Flush();
         return $this->redirect($this->getRequest()->headers->get('referer'));
@@ -75,12 +76,6 @@ class DefaultController extends Controller
       else {
         return $this->redirect($this->getRequest()->headers->get('referer'));
       }
-
-      $quote = $this->getDoctrine()->getRepository("AppBundle:Fortune")->find($id);
-      $quote->voteDown();
-
-      $this->getDoctrine()->getManager()->Flush();
-      return $this->redirect($this->getRequest()->headers->get('referer'));
     }
 
     /**
