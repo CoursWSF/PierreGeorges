@@ -26,11 +26,6 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
       $user = $this->get('security.context')->getToken()->getUser();
-      \dump($user);
-
-      if($user == "anon."){
-        \dump("coucou");
-      }
 
       $fortunes = $this->getDoctrine()->getRepository("AppBundle:Fortune")->findLasts();
       $pagerfanta = new Pagerfanta($fortunes);
@@ -266,8 +261,7 @@ class DefaultController extends Controller
       public function updateQuoteAction(Fortune $fortune, Request $request, $id)
       {
         $user = $this->get('security.context')->getToken()->getUser();
-        \dump($user);
-        $form = $this->createForm(new CommentType, new Comment);
+        $form = $this->createForm(new FortuneType, $fortune);
 
         $form->handleRequest($request);
         if ($form->isValid()) {
@@ -282,7 +276,8 @@ class DefaultController extends Controller
 
         return $this->render('default/updateQuote.html.twig', array(
             'quote' => $fortune,
-            'user'=> $user
+            'user'=> $user,
+            'form' => $form->createView()
         ));
       }
 }
