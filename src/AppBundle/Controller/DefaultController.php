@@ -171,6 +171,7 @@ class DefaultController extends Controller
       return $this->render('default/oneQuote.html.twig', array(
           'quote' => $fortune,
           'comments' => $this->getDoctrine()->getRepository("AppBundle:Comment")->bestRated($fortune),
+          'user' => $user,
           'form' => $form->createView()
       ));
     }
@@ -267,11 +268,12 @@ class DefaultController extends Controller
         if ($form->isValid()) {
           $em = $this->getDoctrine()->getManager();
           $comment = $form->getData();
-          $comment -> setFortune($fortune);
-          $comment -> setUser($user);
+
           $em->persist($comment);
           $em->flush();
-          return $this->redirect($this->getRequest()->headers->get('referer'));
+          return $this->redirectToRoute('onequote', array(
+            'id' => $id
+          ));
         }
 
         return $this->render('default/updateQuote.html.twig', array(
