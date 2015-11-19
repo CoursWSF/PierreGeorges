@@ -27,6 +27,9 @@
         "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
+        "pre-install-cmd": [
+            "AppBundle\\HerokuDatabase::populateEnvironment"
+        ],
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
@@ -54,12 +57,12 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml",
             "env-map": {
-               "database_name": "dbc27gp7bkv48l",
-               "database_user": "kteghbacgwnhbb",
-               "database_host": "ec2-54-83-53-120.compute-1.amazonaws.com",
-               "database_password": "qi9jb2s551G4a9e3ixJTrqMs6q",
-               "database_port": 5432
-           }
+              "database_host": "DATABASE_HOST",
+              "database_port": "DATABASE_PORT",
+              "database_name": "DATABASE_NAME",
+              "database_user": "DATABASE_USER",
+              "database_password": "DATABASE_PASSWORD"
+            }
         }
     }
 }
