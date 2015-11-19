@@ -52,7 +52,14 @@
         "symfony-web-dir": "web",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "env-map": {
+               "database_name": "dbc27gp7bkv48l",
+               "database_user": "kteghbacgwnhbb",
+               "database_host": "ec2-54-83-53-120.compute-1.amazonaws.com",
+               "database_password": "qi9jb2s551G4a9e3ixJTrqMs6q",
+               "database_port": 5432
+           }
         }
     }
 }
