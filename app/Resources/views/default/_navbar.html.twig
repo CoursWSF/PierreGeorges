@@ -25,12 +25,15 @@
       <li {% if app.request.attributes.get('_route') == 'random' %}class="active"{% endif %}>
         <a href="{{path("random")}}">Random</a>
       </li>
-      <li {% if app.request.attributes.get('_route') == 'newquote' %}class="active"{% endif %}>
-        <a href="{{path("newquote")}}">Create Pierre Georges</a>
-      </li>
-      <li {% if app.request.attributes.get('_route') == 'moderate' %}class="active"{% endif %}>
-        <a href="{{path("moderate")}}">Valider</a>
-      </li>
+      {% if user != "anon." %}
+        <li {% if app.request.attributes.get('_route') == 'newquote' %}class="active"{% endif %}>
+          <a href="{{path("newquote")}}">Create Pierre Georges</a>
+        </li>
+
+        <li {% if app.request.attributes.get('_route') == 'moderate' %}class="active"{% endif %}>
+          <a href="{{path("moderate")}}">Valider</a>
+        </li>
+      {% endif %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
       {% if user == 'anon.' %}

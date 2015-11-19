@@ -85,6 +85,7 @@ class DefaultController extends Controller
      {
        return $this->render('default/top.html.twig', array(
            'bestQuotes' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->bestRated(),
+           'user' => $user = $this->get('security.context')->getToken()->getUser()
        ));
      }
 
@@ -95,6 +96,7 @@ class DefaultController extends Controller
       {
         return $this->render('default/flop.html.twig', array(
             'worstQuotes' => $this->getDoctrine()->getRepository("AppBundle:Fortune")->worstRated(),
+            'user' => $user = $this->get('security.context')->getToken()->getUser()
         ));
       }
 
@@ -118,6 +120,7 @@ class DefaultController extends Controller
 
       return $this->render('default/byAuthor.html.twig', array(
           'quotesByAuthor' => $quotesByAuthor,
+          'user' => $user = $this->get('security.context')->getToken()->getUser()
       ));
     }
 

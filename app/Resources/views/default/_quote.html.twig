@@ -1,19 +1,23 @@
-<a href="{{path("onequote", {id: quote.id})}}">
-  <h3 class="text-center">{{quote.title}}</h3>
-</a>
 {% if quote.validate != 1 %}
-<div class="pull-right">
-  <a class="pull-right" href="{{path("validateQuote", {id: quote.id})}}"><i class="fa fa-check-circle-o"></i></a>
-  <a class="pull-right" href="{{path("deleteQuote", {id: quote.id})}}"><i class="fa fa-ban"></i></a>
-</div>
-{% endif %}
+  <h3 class="text-center">{{quote.title}}</h3>
 
-{% if user != "anon." %}
+  <div class="pull-right">
+    <a class="pull-right" href="{{path("validateQuote", {id: quote.id})}}"><i class="fa fa-check-circle-o"></i></a>
+    <a class="pull-right" href="{{path("deleteQuote", {id: quote.id})}}"><i class="fa fa-ban"></i></a>
+  </div>
+{% else %}
+  <a href="{{path("onequote", {id: quote.id})}}">
+    <h3 class="text-center">{{quote.title}}</h3>
+  </a>
 
-  {% if user.username == quote.user %}
-    <p>
-      <a class="pull-right" href="{{path("updateQuote", {id: quote.id})}}"><i class="fa fa-pencil"></i></a>
-    </p>
+  {% if user != "anon." %}
+
+    {% if user.username == quote.user %}
+      <p>
+        <a class="pull-right" href="{{path("updateQuote", {id: quote.id})}}"><i class="fa fa-pencil"></i></a>
+      </p>
+    {% endif %}
+
   {% endif %}
 
 {% endif %}
@@ -50,7 +54,7 @@
         style="color:red;"></i></a>
       {% else %}
         <a href="{{path("votedown", {id: quote.id})}}"><i class="fa fa-thumbs-o-down"
-        style="color:silver;"></i></a>        
+        style="color:silver;"></i></a>
       {% endif %}
     </div>
     <div class="col-sm-3">
