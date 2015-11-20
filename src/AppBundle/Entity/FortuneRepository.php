@@ -18,19 +18,29 @@ class FortuneRepository extends \Doctrine\ORM\EntityRepository
   }
 
   public function bestRated() {
-    return $this->createQueryBuilder('F')
-      ->orderBy("F.upVote/F.downVote", "DESC")
-      ->setMaxResults(10)
-      ->getQuery()
-      ->getResult();
+    return array_column(
+      $this->createQueryBuilder('F')
+        ->select("F AS fortune")
+        ->addSelect("F.upVote/(CASE WHEN F.downVote > 0 THEN F.downVote ELSE 1 END) AS ratio")
+        ->orderBy("ratio", "DESC")
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult(),
+      'fortune'
+    );
   }
 
   public function worstRated() {
-    return $this->createQueryBuilder('F')
-      ->orderBy("F.downVote/F.upVote", "DESC")
-      ->setMaxResults(10)
-      ->getQuery()
-      ->getResult();
+    return array_column(
+      $this->createQueryBuilder('F')
+        ->select("F AS fortune")
+        ->addSelect("F.downVote/(CASE WHEN F.upVote > 0 THEN F.upVote ELSE 1 END) AS ratio")
+        ->orderBy("ratio", "DESC")
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult(),
+      'fortune'
+    );
   }
 
   public function findByAuthor($idAuthor) {
@@ -66,5 +76,5 @@ class FortuneRepository extends \Doctrine\ORM\EntityRepository
       ->getQuery()
       ->getResult();
   }
-  
+
 }

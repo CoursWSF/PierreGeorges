@@ -83,5 +83,20 @@ swiftmailer:
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
-    firewall_name: main
+    firewall_name: secure_area
     user_class: AppBundle\Entity\User
+
+hwi_oauth:
+    firewall_names: [secured_area]
+    fosub:
+        username_iterations: 30
+        properties:
+            # these properties will be used/redefined later in the custom FOSUBUserProvider service.
+            facebook: facebook_id
+    resource_owners:
+        any_name:
+            type:                facebook
+            client_id:           1505582686407318
+            client_secret:       62e7773ab15bc76444d4c065d5c40cb3
+            options:
+                display: popup #dialog is optimized for popup window
