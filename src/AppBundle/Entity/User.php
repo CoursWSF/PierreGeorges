@@ -26,7 +26,7 @@ class User extends BaseUser
     /**
     * @var string
     *
-    * @ORM\Column(name="facebook_id", type="string")
+    * @ORM\Column(name="facebook_id", type="string", nullable=true)
      */
     protected $facebook_id;
 
