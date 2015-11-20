@@ -116,7 +116,6 @@ class DefaultController extends Controller
       // return new Response($serializedEntity, 200, array('Content-Type' => 'application/json'));
 
       $quotesByAuthor = $this->getDoctrine()->getRepository("AppBundle:Fortune")->findByAuthor($idAuthor);
-      \dump($quotesByAuthor);
 
       return $this->render('default/byAuthor.html.twig', array(
           'quotesByAuthor' => $quotesByAuthor,
