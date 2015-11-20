@@ -22,6 +22,18 @@ class User extends BaseUser
     /**
     * @ORM\OneToMany(targetEntity="Fortune", mappedBy="user")
     **/
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="facebook_id", type="string")
+     */
+    protected $facebook_id;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Fortune", mappedBy="user")
+    **/
+
     private $fortunes;
 
     /**

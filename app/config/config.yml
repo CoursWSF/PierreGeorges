@@ -87,14 +87,14 @@ fos_user:
     user_class: AppBundle\Entity\User
 
 hwi_oauth:
-    firewall_names: [secured_area]
+    firewall_names: [main]
     fosub:
         username_iterations: 30
         properties:
             # these properties will be used/redefined later in the custom FOSUBUserProvider service.
             facebook: facebook_id
     resource_owners:
-        any_name:
+        facebook:
             type:                facebook
             client_id:           1505582686407318
             client_secret:       62e7773ab15bc76444d4c065d5c40cb3

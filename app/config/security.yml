@@ -30,9 +30,7 @@ security:
 
             logout:       true
             anonymous:    true
-
-        secured_area:
-            anonymous: ~
+            
             oauth:
                 resource_owners:
                     facebook:           "/login/check-facebook"
@@ -53,3 +51,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login/check-facebook, roles: IS_AUTHENTICATED_ANONYMOUSLY }
