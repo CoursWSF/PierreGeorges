@@ -266,9 +266,9 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
           $em = $this->getDoctrine()->getManager();
-          $comment = $form->getData();
+          $quote = $form->getData();
 
-          $em->persist($comment);
+          $em->persist($quote);
           $em->flush();
           return $this->redirectToRoute('onequote', array(
             'id' => $id
